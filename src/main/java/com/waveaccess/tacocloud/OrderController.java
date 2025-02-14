@@ -14,6 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/orders")
 public class OrderController {
 
+    private OrderRepository orderRepository;
+
+    public OrderController(OrderRepository orderRepository){
+        this.orderRepository = orderRepository;
+    }
+
     @GetMapping("/current")
     public String orderForm(Model model){
         model.addAttribute("order",new Order());
@@ -25,6 +31,7 @@ public class OrderController {
         if (errors.hasErrors()){
             return "orderForm";
         }
+        orderRepository.save(order);
         log.info("Обработка заказа: "+order);
         return "redirect:/";
     }

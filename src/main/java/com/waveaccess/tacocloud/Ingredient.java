@@ -1,16 +1,23 @@
 package com.waveaccess.tacocloud;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Ingredient {
-    private final String id;
-    private final String name;
-    private final Type type;
+    @Id
+    private String id;
+    private String name;
+    private Type type;
 
-    public enum Type{
-        WRAP,PROTEIN,VEGGIES,CHEESE,SAUCE
+    public enum Type {
+        WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
     }
 }

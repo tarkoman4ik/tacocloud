@@ -1,0 +1,15 @@
+version: '2'
+services:
+  db:
+    image: postgres:12-alpine
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_USER: taco
+      POSTGRES_PASSWORD: taco
+      POSTGRES_DB: taco
+    volumes:
+      - taco-db:/pgdata
+
+volumes:
+  taco-db:
