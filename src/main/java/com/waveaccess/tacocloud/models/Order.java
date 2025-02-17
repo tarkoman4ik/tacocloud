@@ -1,5 +1,6 @@
-package com.waveaccess.tacocloud;
+package com.waveaccess.tacocloud.models;
 
+import com.waveaccess.tacocloud.models.Taco;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Digits;
@@ -17,7 +18,7 @@ import java.util.List;
 @Table(name="taco_order")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @NotBlank(message="Необходимо заполнить имя")
     private String name;

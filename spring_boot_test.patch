@@ -1,0 +1,569 @@
+Subject: [PATCH] spring boot test
+---
+Index: src/main/java/com/waveaccess/tacocloud/HomeController.java
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/HomeController.java b/src/main/java/com/waveaccess/tacocloud/HomeController.java
+deleted file mode 100644
+--- a/src/main/java/com/waveaccess/tacocloud/HomeController.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ /dev/null	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
+@@ -1,30 +0,0 @@
+-package com.waveaccess.tacocloud;
+-
+-import org.springframework.stereotype.Controller;
+-import org.springframework.web.bind.annotation.GetMapping;
+-import com.waveaccess.tacocloud.Ingredient.Type;
+-
+-@Controller
+-public class HomeController {
+-
+-    private final IngredientRepository ingredientRepository;
+-
+-    public HomeController(IngredientRepository ingredientRepository) {
+-        this.ingredientRepository = ingredientRepository;
+-    }
+-
+-    @GetMapping("/")
+-    public String home(){
+-        ingredientRepository.save(new Ingredient("FLTO","Пшеничная лепешка", Type.WRAP));
+-        ingredientRepository.save(new Ingredient("COTO", "Кукурузная лепешка", Type.WRAP));
+-        ingredientRepository.save(new Ingredient("GRBF", "Говядина", Type.PROTEIN));
+-        ingredientRepository.save(new Ingredient("CARN", "Свинина", Type.PROTEIN));
+-        ingredientRepository.save(new Ingredient("TMTO", "Помидоры", Type.VEGGIES));
+-        ingredientRepository.save(new Ingredient("LETC", "Салат", Type.VEGGIES));
+-        ingredientRepository.save(new Ingredient("CHED", "Чеддер", Type.CHEESE));
+-        ingredientRepository.save(new Ingredient("JACK", "Джек", Type.CHEESE));
+-        ingredientRepository.save(new Ingredient("SLSA", "Сальса", Type.SAUCE));
+-        ingredientRepository.save( new Ingredient("SRCR", "Сметана", Type.SAUCE));
+-        return "home";
+-    }
+-}
+Index: src/main/java/com/waveaccess/tacocloud/IngredientByIdConverter.java
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/IngredientByIdConverter.java b/src/main/java/com/waveaccess/tacocloud/IngredientByIdConverter.java
+deleted file mode 100644
+--- a/src/main/java/com/waveaccess/tacocloud/IngredientByIdConverter.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ /dev/null	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
+@@ -1,24 +0,0 @@
+-package com.waveaccess.tacocloud;
+-
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.core.convert.converter.Converter;
+-import org.springframework.stereotype.Component;
+-
+-import java.util.Optional;
+-
+-@Component
+-public class IngredientByIdConverter implements Converter<String,Ingredient> {
+-    private IngredientRepository ingredientRepository;
+-
+-    @Autowired
+-    public IngredientByIdConverter(IngredientRepository ingredientRepository){
+-        this.ingredientRepository = ingredientRepository;
+-    }
+-
+-    @Override
+-    public Ingredient convert(String id){
+-        //return ingredientRepository.findById(id).orElse(null);
+-        Optional<Ingredient> optionalIngredient = ingredientRepository.findById(id);
+-        return optionalIngredient.isPresent() ? optionalIngredient.get() : null;
+-    }
+-}
+Index: src/main/java/com/waveaccess/tacocloud/IngredientRepository.java
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/IngredientRepository.java b/src/main/java/com/waveaccess/tacocloud/IngredientRepository.java
+deleted file mode 100644
+--- a/src/main/java/com/waveaccess/tacocloud/IngredientRepository.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ /dev/null	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
+@@ -1,7 +0,0 @@
+-package com.waveaccess.tacocloud;
+-
+-import org.springframework.data.repository.CrudRepository;
+-
+-public interface IngredientRepository extends CrudRepository<Ingredient,String> {
+-
+-}
+Index: src/main/java/com/waveaccess/tacocloud/OrderRepository.java
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/OrderRepository.java b/src/main/java/com/waveaccess/tacocloud/OrderRepository.java
+deleted file mode 100644
+--- a/src/main/java/com/waveaccess/tacocloud/OrderRepository.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ /dev/null	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
+@@ -1,9 +0,0 @@
+-package com.waveaccess.tacocloud;
+-
+-import org.springframework.data.repository.CrudRepository;
+-
+-import java.util.Date;
+-import java.util.List;
+-
+-public interface OrderRepository extends CrudRepository<Order,Long> {
+-}
+Index: src/main/java/com/waveaccess/tacocloud/TacoRepository.java
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/TacoRepository.java b/src/main/java/com/waveaccess/tacocloud/TacoRepository.java
+deleted file mode 100644
+--- a/src/main/java/com/waveaccess/tacocloud/TacoRepository.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ /dev/null	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
+@@ -1,7 +0,0 @@
+-package com.waveaccess.tacocloud;
+-
+-import org.springframework.data.repository.CrudRepository;
+-
+-public interface TacoRepository extends CrudRepository<Taco,Long> {
+-
+-}
+Index: src/main/java/com/waveaccess/tacocloud/repositories/IngredientRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/repositories/IngredientRepository.java b/src/main/java/com/waveaccess/tacocloud/repositories/IngredientRepository.java
+new file mode 100644
+--- /dev/null	(date 1739788398929)
++++ b/src/main/java/com/waveaccess/tacocloud/repositories/IngredientRepository.java	(date 1739788398929)
+@@ -0,0 +1,8 @@
++package com.waveaccess.tacocloud.repositories;
++
++import com.waveaccess.tacocloud.models.Ingredient;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++public interface IngredientRepository extends JpaRepository<Ingredient,String> {
++
++}
+Index: src/main/java/com/waveaccess/tacocloud/repositories/OrderRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/repositories/OrderRepository.java b/src/main/java/com/waveaccess/tacocloud/repositories/OrderRepository.java
+new file mode 100644
+--- /dev/null	(date 1739788398943)
++++ b/src/main/java/com/waveaccess/tacocloud/repositories/OrderRepository.java	(date 1739788398943)
+@@ -0,0 +1,7 @@
++package com.waveaccess.tacocloud.repositories;
++
++import com.waveaccess.tacocloud.models.Order;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++public interface OrderRepository extends JpaRepository<Order,Long> {
++}
+Index: src/main/java/com/waveaccess/tacocloud/Order.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/Order.java b/src/main/java/com/waveaccess/tacocloud/models/Order.java
+rename from src/main/java/com/waveaccess/tacocloud/Order.java
+rename to src/main/java/com/waveaccess/tacocloud/models/Order.java
+--- a/src/main/java/com/waveaccess/tacocloud/Order.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ b/src/main/java/com/waveaccess/tacocloud/models/Order.java	(date 1739788861633)
+@@ -1,5 +1,6 @@
+-package com.waveaccess.tacocloud;
++package com.waveaccess.tacocloud.models;
+ 
++import com.waveaccess.tacocloud.models.Taco;
+ import jakarta.persistence.*;
+ import jakarta.validation.Valid;
+ import jakarta.validation.constraints.Digits;
+@@ -17,7 +18,7 @@
+ @Table(name="taco_order")
+ public class Order {
+     @Id
+-    @GeneratedValue(strategy = GenerationType.AUTO)
++    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+     private Long id;
+     @NotBlank(message="Необходимо заполнить имя")
+     private String name;
+Index: src/main/java/com/waveaccess/tacocloud/OrderController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/OrderController.java b/src/main/java/com/waveaccess/tacocloud/controllers/OrderController.java
+rename from src/main/java/com/waveaccess/tacocloud/OrderController.java
+rename to src/main/java/com/waveaccess/tacocloud/controllers/OrderController.java
+--- a/src/main/java/com/waveaccess/tacocloud/OrderController.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ b/src/main/java/com/waveaccess/tacocloud/controllers/OrderController.java	(date 1739788662002)
+@@ -1,6 +1,10 @@
+-package com.waveaccess.tacocloud;
++package com.waveaccess.tacocloud.controllers;
+ 
++import com.waveaccess.tacocloud.models.Order;
++import com.waveaccess.tacocloud.repositories.OrderRepository;
++import com.waveaccess.tacocloud.services.OrderService;
+ import jakarta.validation.Valid;
++import lombok.RequiredArgsConstructor;
+ import lombok.extern.slf4j.Slf4j;
+ import org.springframework.stereotype.Controller;
+ import org.springframework.ui.Model;
+@@ -11,14 +15,11 @@
+ 
+ @Slf4j
+ @Controller
++@RequiredArgsConstructor
+ @RequestMapping("/orders")
+ public class OrderController {
+ 
+-    private OrderRepository orderRepository;
+-
+-    public OrderController(OrderRepository orderRepository){
+-        this.orderRepository = orderRepository;
+-    }
++    private final OrderService orderService;
+ 
+     @GetMapping("/current")
+     public String orderForm(Model model){
+@@ -31,7 +32,7 @@
+         if (errors.hasErrors()){
+             return "orderForm";
+         }
+-        orderRepository.save(order);
++        orderService.saveOrder(order);
+         log.info("Обработка заказа: "+order);
+         return "redirect:/";
+     }
+Index: src/main/java/com/waveaccess/tacocloud/controllers/HomeController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/controllers/HomeController.java b/src/main/java/com/waveaccess/tacocloud/controllers/HomeController.java
+new file mode 100644
+--- /dev/null	(date 1739789473246)
++++ b/src/main/java/com/waveaccess/tacocloud/controllers/HomeController.java	(date 1739789473246)
+@@ -0,0 +1,31 @@
++package com.waveaccess.tacocloud.controllers;
++
++import com.waveaccess.tacocloud.models.Ingredient;
++import com.waveaccess.tacocloud.repositories.IngredientRepository;
++import com.waveaccess.tacocloud.services.IngredientService;
++import lombok.RequiredArgsConstructor;
++import org.springframework.stereotype.Controller;
++import org.springframework.web.bind.annotation.GetMapping;
++import com.waveaccess.tacocloud.models.Ingredient.Type;
++
++@Controller
++@RequiredArgsConstructor
++public class HomeController {
++
++    private final IngredientService ingredientService;
++
++    @GetMapping("/")
++    public String home(){
++        ingredientService.saveIngredient(new Ingredient("FLTO","Пшеничная лепешка", Type.WRAP));
++        ingredientService.saveIngredient(new Ingredient("COTO", "Кукурузная лепешка", Type.WRAP));
++        ingredientService.saveIngredient(new Ingredient("GRBF", "Говядина", Type.PROTEIN));
++        ingredientService.saveIngredient(new Ingredient("CARN", "Свинина", Type.PROTEIN));
++        ingredientService.saveIngredient(new Ingredient("TMTO", "Помидоры", Type.VEGGIES));
++        ingredientService.saveIngredient(new Ingredient("LETC", "Салат", Type.VEGGIES));
++        ingredientService.saveIngredient(new Ingredient("CHED", "Чеддер", Type.CHEESE));
++        ingredientService.saveIngredient(new Ingredient("JACK", "Джек", Type.CHEESE));
++        ingredientService.saveIngredient(new Ingredient("SLSA", "Сальса", Type.SAUCE));
++        ingredientService.saveIngredient( new Ingredient("SRCR", "Сметана", Type.SAUCE));
++        return "home";
++    }
++}
+Index: src/main/java/com/waveaccess/tacocloud/DesignTacoController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/DesignTacoController.java b/src/main/java/com/waveaccess/tacocloud/controllers/DesignTacoController.java
+rename from src/main/java/com/waveaccess/tacocloud/DesignTacoController.java
+rename to src/main/java/com/waveaccess/tacocloud/controllers/DesignTacoController.java
+--- a/src/main/java/com/waveaccess/tacocloud/DesignTacoController.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ b/src/main/java/com/waveaccess/tacocloud/controllers/DesignTacoController.java	(date 1739789639203)
+@@ -1,7 +1,15 @@
+-package com.waveaccess.tacocloud;
++package com.waveaccess.tacocloud.controllers;
+ 
+-import com.waveaccess.tacocloud.Ingredient.Type;
++import com.waveaccess.tacocloud.models.Ingredient;
++import com.waveaccess.tacocloud.models.Ingredient.Type;
++import com.waveaccess.tacocloud.models.Taco;
++import com.waveaccess.tacocloud.models.Order;
++import com.waveaccess.tacocloud.repositories.IngredientRepository;
++import com.waveaccess.tacocloud.repositories.TacoRepository;
++import com.waveaccess.tacocloud.services.IngredientService;
++import com.waveaccess.tacocloud.services.TacoService;
+ import jakarta.validation.Valid;
++import lombok.RequiredArgsConstructor;
+ import lombok.extern.slf4j.Slf4j;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.stereotype.Controller;
+@@ -18,24 +26,19 @@
+ 
+ @Slf4j
+ @Controller
++@RequiredArgsConstructor
+ @RequestMapping("/design")
+ public class DesignTacoController {
+ 
+-    private final IngredientRepository ingredientRepository;
++    private final IngredientService ingredientService;
+ 
+-    private TacoRepository tacoRepository;
+-
+-    @Autowired
+-    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepository) {
+-        this.ingredientRepository = ingredientRepository;
+-        this.tacoRepository = tacoRepository;
+-    }
++    private final TacoService tacoService;
+ 
+     @GetMapping
+     public String showDesignForm(Model model) {
+         List<Ingredient> ingredients = new ArrayList<>();
+-        ingredientRepository.findAll().forEach(ingredients::add);
+-        Type[] types = Ingredient.Type.values();
++        ingredientService.findIngredients().forEach(ingredients::add);
++        Type[] types = Type.values();
+         for (Type type : types) {
+             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
+         }
+@@ -47,13 +50,12 @@
+         return ingredients.stream().filter(ingredient -> ingredient.getType().equals(type)).toList();
+     }
+ 
+-    @Transactional
+     @PostMapping
+     public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, @ModelAttribute Order order) {
+         if (errors.hasErrors()) {
+             return "design";
+         }
+-        Taco saved = tacoRepository.save(design);
++        Taco saved = tacoService.saveTaco(design);
+         order.addDesign(saved);
+         log.info("Обработка дизайна: " + design);
+         return "redirect:/orders/current";
+Index: src/main/java/com/waveaccess/tacocloud/Ingredient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/Ingredient.java b/src/main/java/com/waveaccess/tacocloud/models/Ingredient.java
+rename from src/main/java/com/waveaccess/tacocloud/Ingredient.java
+rename to src/main/java/com/waveaccess/tacocloud/models/Ingredient.java
+--- a/src/main/java/com/waveaccess/tacocloud/Ingredient.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ b/src/main/java/com/waveaccess/tacocloud/models/Ingredient.java	(date 1739787734366)
+@@ -1,11 +1,11 @@
+-package com.waveaccess.tacocloud;
++package com.waveaccess.tacocloud.models;
+ 
+ import jakarta.persistence.Entity;
+ import jakarta.persistence.Id;
+ import lombok.AllArgsConstructor;
+ import lombok.Data;
++import lombok.Getter;
+ import lombok.NoArgsConstructor;
+-import lombok.RequiredArgsConstructor;
+ 
+ @Data
+ @NoArgsConstructor
+@@ -20,4 +20,5 @@
+     public enum Type {
+         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
+     }
++
+ }
+Index: src/main/java/com/waveaccess/tacocloud/services/TacoService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/services/TacoService.java b/src/main/java/com/waveaccess/tacocloud/services/TacoService.java
+new file mode 100644
+--- /dev/null	(date 1739789650587)
++++ b/src/main/java/com/waveaccess/tacocloud/services/TacoService.java	(date 1739789650587)
+@@ -0,0 +1,21 @@
++package com.waveaccess.tacocloud.services;
++
++import com.waveaccess.tacocloud.models.Taco;
++import com.waveaccess.tacocloud.repositories.TacoRepository;
++import lombok.RequiredArgsConstructor;
++import lombok.extern.slf4j.Slf4j;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
++
++@Service
++@Slf4j
++@Transactional
++@RequiredArgsConstructor
++public class TacoService {
++    private final TacoRepository tacoRepository;
++
++    public Taco saveTaco(Taco taco){
++        tacoRepository.save(taco);
++        return taco;
++    }
++}
+Index: src/main/java/com/waveaccess/tacocloud/services/IngredientService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/services/IngredientService.java b/src/main/java/com/waveaccess/tacocloud/services/IngredientService.java
+new file mode 100644
+--- /dev/null	(date 1739789639208)
++++ b/src/main/java/com/waveaccess/tacocloud/services/IngredientService.java	(date 1739789639208)
+@@ -0,0 +1,26 @@
++package com.waveaccess.tacocloud.services;
++
++import com.waveaccess.tacocloud.models.Ingredient;
++import com.waveaccess.tacocloud.repositories.IngredientRepository;
++import lombok.RequiredArgsConstructor;
++import lombok.extern.slf4j.Slf4j;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
++
++import java.util.List;
++
++@Service
++@Slf4j
++@Transactional
++@RequiredArgsConstructor
++public class IngredientService {
++    private final IngredientRepository ingredientRepository;
++
++    public List<Ingredient> findIngredients(){
++        return ingredientRepository.findAll();
++    }
++
++    public void saveIngredient(Ingredient ingredient){
++        ingredientRepository.save(ingredient);
++    }
++}
+Index: src/main/java/com/waveaccess/tacocloud/Taco.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/Taco.java b/src/main/java/com/waveaccess/tacocloud/models/Taco.java
+rename from src/main/java/com/waveaccess/tacocloud/Taco.java
+rename to src/main/java/com/waveaccess/tacocloud/models/Taco.java
+--- a/src/main/java/com/waveaccess/tacocloud/Taco.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ b/src/main/java/com/waveaccess/tacocloud/models/Taco.java	(date 1739787734372)
+@@ -1,4 +1,4 @@
+-package com.waveaccess.tacocloud;
++package com.waveaccess.tacocloud.models;
+ 
+ import jakarta.persistence.*;
+ import jakarta.validation.constraints.NotNull;
+Index: src/main/java/com/waveaccess/tacocloud/repositories/TacoRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/repositories/TacoRepository.java b/src/main/java/com/waveaccess/tacocloud/repositories/TacoRepository.java
+new file mode 100644
+--- /dev/null	(date 1739788398936)
++++ b/src/main/java/com/waveaccess/tacocloud/repositories/TacoRepository.java	(date 1739788398936)
+@@ -0,0 +1,8 @@
++package com.waveaccess.tacocloud.repositories;
++
++import com.waveaccess.tacocloud.models.Taco;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++public interface TacoRepository extends JpaRepository<Taco,Long> {
++
++}
+Index: src/main/java/com/waveaccess/tacocloud/WebConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/WebConfig.java b/src/main/java/com/waveaccess/tacocloud/configurations/WebConfig.java
+rename from src/main/java/com/waveaccess/tacocloud/WebConfig.java
+rename to src/main/java/com/waveaccess/tacocloud/configurations/WebConfig.java
+--- a/src/main/java/com/waveaccess/tacocloud/WebConfig.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ b/src/main/java/com/waveaccess/tacocloud/configurations/WebConfig.java	(date 1739787649708)
+@@ -1,4 +1,4 @@
+-package com.waveaccess.tacocloud;
++package com.waveaccess.tacocloud.configurations;
+ 
+ import org.springframework.context.annotation.Configuration;
+ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+Index: src/main/java/com/waveaccess/tacocloud/services/OrderService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/waveaccess/tacocloud/services/OrderService.java b/src/main/java/com/waveaccess/tacocloud/services/OrderService.java
+new file mode 100644
+--- /dev/null	(date 1739789650580)
++++ b/src/main/java/com/waveaccess/tacocloud/services/OrderService.java	(date 1739789650580)
+@@ -0,0 +1,20 @@
++package com.waveaccess.tacocloud.services;
++
++import com.waveaccess.tacocloud.models.Order;
++import com.waveaccess.tacocloud.repositories.OrderRepository;
++import lombok.RequiredArgsConstructor;
++import lombok.extern.slf4j.Slf4j;
++import org.springframework.stereotype.Service;
++import org.springframework.transaction.annotation.Transactional;
++
++@Service
++@Slf4j
++@Transactional
++@RequiredArgsConstructor
++public class OrderService {
++    private final OrderRepository orderRepository;
++
++    public void saveOrder(Order order){
++        orderRepository.save(order);
++    }
++}
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ b/pom.xml	(date 1739790279449)
+@@ -101,6 +101,11 @@
+ 					</excludes>
+ 				</configuration>
+ 			</plugin>
++			<plugin>
++				<groupId>org.flywaydb</groupId>
++				<artifactId>flyway-maven-plugin</artifactId>
++				<version>10.11.1</version>
++			</plugin>
+ 		</plugins>
+ 	</build>
+ 
+Index: flyway.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/flyway.properties b/flyway.properties
+new file mode 100644
+--- /dev/null	(date 1739790537007)
++++ b/flyway.properties	(date 1739790537007)
+@@ -0,0 +1,4 @@
++flyway.user = taco
++flyway.password = taco
++flyway.url=jdbc:postgresql://127.0.0.1:15432/taco
++flyway.locations=filesystem:db/migration
+\ No newline at end of file
+Index: src/test/java/com/waveaccess/tacocloud/HomeControllerTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/com/waveaccess/tacocloud/HomeControllerTest.java b/src/test/java/com/waveaccess/tacocloud/HomeControllerTest.java
+--- a/src/test/java/com/waveaccess/tacocloud/HomeControllerTest.java	(revision c8ba8c15ddfa9e695ffd12342373ab02ddf7c74a)
++++ b/src/test/java/com/waveaccess/tacocloud/HomeControllerTest.java	(date 1739787689071)
+@@ -12,7 +12,7 @@
+ import static org.hamcrest.Matchers.containsString;
+ 
+ @RunWith(SpringRunner.class)
+-@WebMvcTest(com.waveaccess.tacocloud.HomeController.class)
++@WebMvcTest(com.waveaccess.tacocloud.controllers.HomeController.class)
+ public class HomeControllerTest {
+ 
+     @Autowired
+diff --git a/db/migration/V1_1_0__first_migration.sql b/db/migration/V1_1_0__first_migration.sql
+new file mode 100644

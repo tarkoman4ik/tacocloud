@@ -1,4 +1,4 @@
-package com.waveaccess.tacocloud;
+package com.waveaccess.tacocloud.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
