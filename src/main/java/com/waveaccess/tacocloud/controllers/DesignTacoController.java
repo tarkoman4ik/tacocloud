@@ -2,18 +2,15 @@ package com.waveaccess.tacocloud.controllers;
 
 import com.waveaccess.tacocloud.models.Ingredient;
 import com.waveaccess.tacocloud.models.Ingredient.Type;
-import com.waveaccess.tacocloud.models.Taco;
 import com.waveaccess.tacocloud.models.Order;
-import com.waveaccess.tacocloud.repositories.IngredientRepository;
-import com.waveaccess.tacocloud.repositories.TacoRepository;
+import com.waveaccess.tacocloud.models.Taco;
 import com.waveaccess.tacocloud.services.IngredientService;
+import com.waveaccess.tacocloud.services.OrderService;
 import com.waveaccess.tacocloud.services.TacoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,23 +33,25 @@ public class DesignTacoController {
 
     private final TacoService tacoService;
 
+    private final OrderService orderService;
+
     @GetMapping
     public String showDesignForm(Model model) {
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientService.findIngredients().forEach(ingredients::add);
-        Type[] types = Type.values();
-        Map<Type,List<Ingredient>> mapTypes = new HashMap<>();
-
-        //TODO: ingridient map(type,List<Ingrediet>)
-        for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
+        Map<Type, List<Ingredient>> mapTypes = new HashMap<>();
+        for (Ingredient i : ingredients) {
+            List<Ingredient> list = new ArrayList<>();
+            if (mapTypes.get(i.getType()) != null)
+                list = mapTypes.get(i.getType());
+            list.add(i);
+            mapTypes.put(i.getType(), list);
+        }
+        for (var x : mapTypes.entrySet()) {
+            model.addAttribute(x.getKey().toString().toLowerCase(), x.getValue());
         }
         model.addAttribute("design", new Taco());
         return "design";
-    }
-
-    private Object filterByType(List<Ingredient> ingredients, Type type) {
-        return ingredients.stream().filter(ingredient -> ingredient.getType().equals(type)).toList();
     }
 
     @PostMapping
@@ -60,9 +59,7 @@ public class DesignTacoController {
         if (errors.hasErrors()) {
             return "design";
         }
-        //TODO: add to service
-        Taco saved = tacoService.saveTaco(design);
-        order.addDesign(saved);
+        orderService.saveDesign(order,tacoService.saveTaco(design));
         log.info("Обработка дизайна: " + design);
         return "redirect:/orders/current";
     }

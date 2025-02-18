@@ -1,7 +1,6 @@
 package com.waveaccess.tacocloud.controllers;
 
 import com.waveaccess.tacocloud.models.Order;
-import com.waveaccess.tacocloud.repositories.OrderRepository;
 import com.waveaccess.tacocloud.services.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,18 +21,18 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping("/current")
-    public String orderForm(Model model){
-        model.addAttribute("order",new Order());
+    public String orderForm(Model model) {
+        model.addAttribute("order", new Order());
         return "orderForm";
     }
 
     @PostMapping
-    public String processOrder(@Valid Order order, Errors errors){
-        if (errors.hasErrors()){
+    public String processOrder(@Valid Order order, Errors errors) {
+        if (errors.hasErrors()) {
             return "orderForm";
         }
         orderService.saveOrder(order);
-        log.info("Обработка заказа: "+order);
+        log.info("Обработка заказа: " + order);
         return "redirect:/";
     }
 }

@@ -16,12 +16,12 @@ import java.util.List;
 public class IngredientService {
     private final IngredientRepository ingredientRepository;
 
-    public List<Ingredient> findIngredients(){
+    public List<Ingredient> findIngredients() {
         return ingredientRepository.findAll();
     }
 
     @Transactional
-    public void saveIngredient(Ingredient ingredient){
+    public void saveIngredient(Ingredient ingredient) {
         ingredientRepository.save(ingredient);
     }
 }

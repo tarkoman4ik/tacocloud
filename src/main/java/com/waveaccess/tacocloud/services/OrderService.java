@@ -1,6 +1,7 @@
 package com.waveaccess.tacocloud.services;
 
 import com.waveaccess.tacocloud.models.Order;
+import com.waveaccess.tacocloud.models.Taco;
 import com.waveaccess.tacocloud.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,12 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public void saveOrder(Order order){
+    public void saveOrder(Order order) {
         orderRepository.save(order);
+    }
+
+    @Transactional
+    public void saveDesign(Order order, Taco design){
+        order.addDesign(design);
     }
 }

@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TacocloudApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TacocloudApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TacocloudApplication.class, args);
+    }
 
 }
