@@ -1,15 +1,27 @@
-version: '2'
+version: '3.8'
 services:
   db:
     image: postgres:latest
+    container_name: taco-db
+    restart: always
     ports:
-      - "15432:5432"
+      - "5432:5432"
     environment:
       POSTGRES_USER: taco
       POSTGRES_PASSWORD: taco
       POSTGRES_DB: taco
-    volumes:
-      - taco-db:/pgdata
 
-volumes:
-  taco-db:
+  tacoapp:
+    container_name: tacocloud_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://taco-db:5432/taco
+      - SPRING_DATASOURCE_USERNAME=taco
+      - SPRING_DATASOURCE_PASSWORD=taco
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - db
