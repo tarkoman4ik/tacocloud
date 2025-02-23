@@ -16,7 +16,12 @@ public class TacoService {
 
     @Transactional
     public Taco saveTaco(Taco taco) {
-        tacoRepository.save(taco);
-        return taco;
+        if (taco!=null) {
+            tacoRepository.save(taco);
+            return taco;
+        }
+        else{
+            throw new RuntimeException("Null object");
+        }
     }
 }
