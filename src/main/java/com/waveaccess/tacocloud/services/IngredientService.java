@@ -20,6 +20,14 @@ public class IngredientService {
         return ingredientRepository.findAll();
     }
 
+    public String getNameById(String id){
+        return ingredientRepository.findById(id).orElseThrow(()-> new RuntimeException("Null object")).getName();
+    }
+
+    public Ingredient getById(String id){
+        return ingredientRepository.findById(id).orElseThrow(()-> new RuntimeException("Null object"));
+    }
+
     @Transactional
     public void saveIngredient(Ingredient ingredient) {
         ingredientRepository.save(ingredient);

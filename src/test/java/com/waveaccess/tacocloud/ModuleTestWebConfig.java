@@ -13,8 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(com.waveaccess.tacocloud.configurations.WebConfig.class)
-public class HomeControllerTest {
-
+public class ModuleTestWebConfig {
     @Autowired
     private MockMvc mockMvc;
 
@@ -25,4 +24,5 @@ public class HomeControllerTest {
                 .andExpect(view().name("home"))
                 .andExpect(content().string(containsString("Welcome to...")));
     }
+
 }

@@ -51,13 +51,13 @@ public class DesignTacoController {
             model.addAttribute(x.getKey().toString().toLowerCase(), x.getValue());
         }
         model.addAttribute("design", new Taco());
-        return "design";
+        return "designForm";
     }
 
     @PostMapping
     public String processDesign(@Valid @ModelAttribute("design") Taco design, Errors errors, @ModelAttribute Order order) {
         if (errors.hasErrors()) {
-            return "design";
+            return "designForm";
         }
         orderService.saveDesign(order,tacoService.saveTaco(design));
         log.info("Обработка дизайна: " + design);
