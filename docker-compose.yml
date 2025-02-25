@@ -1,15 +1,28 @@
-version: '2'
+version: '3.8'
 services:
-  db:
-    image: postgres:latest
-    ports:
-      - "15432:5432"
-    environment:
-      POSTGRES_USER: taco
-      POSTGRES_PASSWORD: taco
-      POSTGRES_DB: taco
-    volumes:
-      - taco-db:/pgdata
-
-volumes:
   taco-db:
+    image: postgres:17
+    container_name: taco-db
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASS}
+      POSTGRES_DB: ${PG_DB}
+
+  tacoapp:
+    container_name: tacoapp
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+      taco-db:
+        condition: service_healthy
+        restart: true
