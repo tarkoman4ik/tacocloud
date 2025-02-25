@@ -21,10 +21,18 @@ public class IngredientService {
         return ingredientRepository.findAll();
     }
 
+    public Ingredient getById(String id){
+        return ingredientRepository.findById(id).orElse(null);
+    }
+
+    public void deleteById(String id){
+        ingredientRepository.deleteById(id);
+    }
+
     public String getNameById(String id){
         return ingredientRepository.findById(id).orElseThrow(()-> new RuntimeException("Null object")).getName();
     }
-  
+
     @Transactional
     public void saveIngredient(Ingredient ingredient) {
         if (ingredient!=null) {
