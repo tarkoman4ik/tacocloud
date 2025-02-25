@@ -24,7 +24,7 @@ public class IngredientService {
     public String getNameById(String id){
         return ingredientRepository.findById(id).orElseThrow(()-> new RuntimeException("Null object")).getName();
     }
-
+  
     @Transactional
     public void saveIngredient(Ingredient ingredient) {
         if (ingredient!=null) {
