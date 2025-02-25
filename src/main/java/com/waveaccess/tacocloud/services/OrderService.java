@@ -17,7 +17,10 @@ public class OrderService {
 
     @Transactional
     public void saveOrder(Order order) {
-        orderRepository.save(order);
+        if (order!=null)
+            orderRepository.save(order);
+        else
+            throw new RuntimeException("Null object");
     }
 
     @Transactional
