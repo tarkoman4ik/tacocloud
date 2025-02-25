@@ -20,6 +20,14 @@ public class IngredientService {
         return ingredientRepository.findAll();
     }
 
+    public Ingredient getById(String id){
+        return ingredientRepository.findById(id).orElse(null);
+    }
+
+    public void deleteById(String id){
+        ingredientRepository.deleteById(id);
+    }
+
     @Transactional
     public void saveIngredient(Ingredient ingredient) {
         ingredientRepository.save(ingredient);
